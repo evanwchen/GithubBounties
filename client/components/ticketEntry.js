@@ -45,7 +45,7 @@ class TicketEntry extends React.Component {
               <div className="row">
                 <p className="left-align col s4">repo: <Link className="cyan-text lighten-2" to={`/repoProfile/${this.props.data.repo_id}`}>{this.props.data.repo_name}
                 </Link></p>
-                <div className="col s6 offset-s3"> {bounty}{button}</div>
+                <div className=" right-align col s6 offset-s3"> {bounty}{button}</div>
                 <p className="right-align col s2">{this.props.data.language}</p>
               </div>
             </div>
