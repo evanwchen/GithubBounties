@@ -198,7 +198,7 @@ class Profile extends React.Component {
                   </div>
                   <div className="row">
                     <h4> Github handle: {this.state.currentUser.username} </h4>
-                    <button className='btn'> <Link className='white-text' to={'/bitcoinpaymentform'}>Bank Form</Link></button>
+                    <button className='btn'> <Link className='white-text' to={'/bankAccountForm'}>Bank Form</Link></button>
                     <button className='btn'> <Link className='white-text' to={'/bitcoinpaymentform'}>Bitcoin Form</Link></button>
 
                   </div>

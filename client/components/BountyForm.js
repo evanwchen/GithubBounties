@@ -1,5 +1,5 @@
 const React = require('react');
-import { Navigation } from 'react-router'
+
 class BountyForm extends React.Component {
 
   constructor(props) {
@@ -92,6 +92,7 @@ class BountyForm extends React.Component {
         },
         success: function(data) {
           console.log('data:', data);
+          window.location = 'http://127.0.0.1:3000/';
         },
         error: function(xhr, status, err) {
           console.error('/stripeCC', status, err.toString());
@@ -129,9 +130,9 @@ class BountyForm extends React.Component {
 
   render() {
     if (this.state.receivedPayment) {
-      setTimeout(function(){
-        window.location = "http://127.0.0.1:3000/";
-      }.bind(this), 1500)
+      setTimeout(function() {
+        window.location = 'http://127.0.0.1:3000/';
+      }.bind(this), 1500);
     }
 
     console.log(this.state);
