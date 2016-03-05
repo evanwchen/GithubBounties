@@ -14,20 +14,14 @@ class Profile extends React.Component {
       issueToPay: undefined,
       currentUser: null,
       prUrl: '',
-      claimedIssues: [
-        {title: 'New issue for Evan to solve',
-        url: 'https://github.com/franklinshieh/Test-Repo/issues/3'
-        },
-        {title: 'Another issue',
-        url: 'https://github.com/franklinshieh/Test-Repo/issues/8'
-        } // Suppose to be fetched from the server 
-      ],
+      claimedIssues: [],
       // issueState: undefined
     };
   }
 
   fetchAcceptedIssues() {
     $.get('fetchUserIssues', (data) => {
+      console.log('data: ', data);
       if (data) {
         this.setState({
           claimedIssues: data
@@ -131,6 +125,7 @@ class Profile extends React.Component {
 
   componentDidMount() {
     this.fetchUserInfo();
+    this.fetchAcceptedIssues();
     var obj = {};
     this.state.claimedIssues.forEach(function(issue, index){
       obj[index] = {state: false, text: ''};
