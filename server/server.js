@@ -313,13 +313,16 @@ app.get('/reqNewAddress', function(req, res) {
 });
 
 app.post('/claimBounty', function(req, res) {
-  console.log(req.body);
+  console.log('bounty', req.body);
+  var user = req.session.passport.user;
+    // Create handler to save it to db
   res.json();
 });
 
 app.post('/submitPull', function(req, res) {
   console.log('pull', req.body);
-  res.json(req.session.passport.user);
+  // Create handler to save it to db
+  res.json();
 });
 
 // Payout to a bitcoin bountyhunter

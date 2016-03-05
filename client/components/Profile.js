@@ -1,4 +1,6 @@
 const React = require('react');
+const Router = require('react-router').Router;
+const Route = require('react-router').Route;
 const Link = require('react-router').Link;
 
 class Profile extends React.Component {
@@ -16,7 +18,7 @@ class Profile extends React.Component {
         url: 'https://github.com/ProfoundMongoose/GithubBounties/pulls/2'
         } // Suppose to be fetched from the server 
       ],
-      issueToggle: undefined
+      issueState: undefined
     };
   }
 
@@ -36,40 +38,44 @@ class Profile extends React.Component {
     });
   }
 
-  submitPull(url) { 
-    $.post('submitPull', {url: url, }, ( data ) => {
+  submitPull(url, index) { 
+    $.post('submitPull', {bounty_url: url, username: this.state.currentUser.username, pr_url: this.state.issueState[index].text }, ( data ) => {
       console.log(data);
     });
   }
 
   toggleIssue(index){
-    console.log('state in toggle', this.state);
-    console.log('toggled', index);
     var obj = {};
-    obj[index] = !this.state.issueToggle[index];
+    obj[index] = {visible: !this.state.issueState[index].visible, text: ''};
     this.setState({
-      issueToggle: Object.assign(this.state.issueToggle, obj)
+      issueState: Object.assign(this.state.issueState, obj)
+    })
+  }
+
+  handleChange(event, index){
+    var obj = {};
+    obj = this.state.issueState[index];
+    obj.text = event.target.value;
+    this.setState({
+      issueState: Object.assign(this.state.issueState, obj)
     })
   }
 
   componentDidMount() {
     this.fetchUserInfo();
     var obj = {};
-    console.log('state issues', this.state.claimedIssues);
-    console.log('state before claimedIssues', this.state);
     this.state.claimedIssues.forEach(function(issue, index){
-      obj[index] = false;
+      obj[index] = {state: false, text: ''};
     })
-    console.log('obj', obj);
-    this.setState({issueToggle: obj}) 
-    console.log('state after issues', this.state);
+    this.setState({issueState: obj}) 
   }
 
   render() {
     var submitPull = this.submitPull.bind(this);
     var toggleIssue = this.toggleIssue.bind(this);
+    var handleChange = this.handleChange.bind(this);
     var state = this.state;
-    if(this.state.currentUser){
+    if(this.state.currentUser && this.state.issueState){
     return (
       <div className="row">
         <div className="col s12 m12">
@@ -85,6 +91,9 @@ class Profile extends React.Component {
                   </div>
                   <div className="row">
                     <h4> Github handle: {this.state.currentUser.username} </h4>
+                    <button className='btn'> <Link className='white-text' to={'/bitcoinpaymentform'}>Bank Form</Link></button>
+                    <button className='btn'> <Link className='white-text' to={'/bitcoinpaymentform'}>Bitcoin Form</Link></button>
+
                   </div>
                 </div>
               </div>
@@ -95,8 +104,8 @@ class Profile extends React.Component {
                   return (
                     <div>
                       <h4> {issue.title} </h4>
-                      {state.issueToggle[i] ? <input placeholder='Enter your PRs URL '/> : null }
-                      {state.issueToggle[i] ? <button className='btn' onClick={submitPull.bind(null, issue.url)}>Submit </button>
+                      {state.issueState[i].visible ? <input placeholder='Enter your PRs URL ' onChange={handleChange.bind(null, event, i)}/> : null }
+                      {state.issueState[i].visible ? <button className='btn' onClick={submitPull.bind(null, issue.url, i)}>Submit </button>
                                                  : <button className='btn' onClick={toggleIssue.bind(null, i)}> Add PR URL </button> }
                     </div>
                   )
@@ -113,6 +122,5 @@ class Profile extends React.Component {
 
   }
 }
-
 
 module.exports = Profile;

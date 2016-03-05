@@ -12,7 +12,6 @@ class TicketList extends React.Component {
       ticketsToRender: [],
       bounties: this.props.bounties || false
     };
-    console.log(this.state);
     this.getIssues = this.getIssues.bind(this);
     this.getBounties = this.getBounties.bind(this);
   }
@@ -35,11 +34,13 @@ class TicketList extends React.Component {
     var self = this;
 
     Issues.getBounties(function(data) {
+      console.log('bounty data', data);
       self.setState({
         numberOfTickets: data.length,
-        ticketsToRender: data.slice(0, 199)
+        ticketsToRender: data
       });
     }, console.log, searchTerm, language);
+    console.log(this.state);
   }
 
   componentDidMount () {
@@ -50,8 +51,7 @@ class TicketList extends React.Component {
     $('.main-ticket-view')[0].scrollTop = 0;
   }
   render () {
-    if (this.state.bounties) {
-      console.log('rendering this');
+    if (this.state.bounties && this.state.ticketsToRender) {
       return (
       <div>
         <TicketSearch searchHandler={this.getBounties} />
@@ -60,13 +60,13 @@ class TicketList extends React.Component {
         </blockquote>
         <div className="main-ticket-view">
             {this.state.ticketsToRender.map ((ticket, index) => (
-                <TicketEntry data={ticket} key={index} />
+                <TicketEntry bounty={this.state.bounties} data={ticket} key={index} />
               )
             )}
         </div>
       </div>
       );      
-    } else {
+    } else if (this.state.ticketsToRender) {
     //for really clean scrolling, we could do something like below to calculate the max height and then set the max height css 
     // var maxHeight = $(window).height() - $('.navbar').outerHeight() - margin * 2;
     
@@ -84,6 +84,10 @@ class TicketList extends React.Component {
         </div>
       </div>
       );
+    } else {
+      return (
+        <div> </div>
+        );
     }  
   }
   

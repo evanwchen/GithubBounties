@@ -46,20 +46,29 @@ module.exports.getIssues = function(successCallback, errCallback, searchTerm, la
 };
 
 module.exports.getBounties = function(successCallback, errCallback, searchTerm, language) {
-  if (issues.length === 0) {
-    getBountiesFromApi((data) => {
-      issues = data;
-      if (searchTerm || language) {
-        return successCallback(returnFilteredIssues(searchTerm, language));
-      }
-      return successCallback(issues);
-    }, errCallback);
-  } else {
+  // if (issues.length === 0) {
+  //   getBountiesFromApi((data) => {
+  //     console.log('data in bounties api call');
+  //     issues = data;
+  //     if (searchTerm || language) {
+  //       return successCallback(returnFilteredIssues(searchTerm, language));
+  //     }
+  //     return successCallback(issues);
+  //   }, errCallback);
+  // } else {
+  //   if (searchTerm || language) {
+  //     return successCallback(returnFilteredIssues(searchTerm, language));
+  //   }
+  //   return successCallback(issues);
+  // }
+  getBountiesFromApi((data) => {
+    console.log('data in bounties api call');
+    issues = data;
     if (searchTerm || language) {
       return successCallback(returnFilteredIssues(searchTerm, language));
     }
     return successCallback(issues);
-  }
+  }, errCallback);
 };
 
 module.exports.getIssuesByRepoId = function(id, successCallback) {

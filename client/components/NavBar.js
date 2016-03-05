@@ -24,7 +24,7 @@ const NavBar = class NavBar extends React.Component {
             <NavEntry data={link} key={index} />
           )}
           </ul>
-          <a id="logo-container" href="#" className="brand-logo center"><img src={'./rsz_b.png'} /></a>
+          <a id="logo-container" href="/" className="brand-logo center"><img src={'./rsz_b.png'} /></a>
             <ul className="right hide-on-med-and-down">
               {this.props.linksRight.map ((link, index) =>
                 <NavEntry data={link} key={index} loggedIn={this.props.loggedIn}/>

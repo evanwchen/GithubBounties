@@ -18,8 +18,8 @@ class TicketEntry extends React.Component {
   }
 
   render() {
-    var bounty = this.state.bounty ? <p> '$' + this.state.bounty </p> : null;
-    var button = this.state.bounty ? <a href='#/bounty' onClick={this.claimBounty.bind(this)} className='btn indigo accent-2'> Claim </a> : null;
+    var bounty = this.state.bounty ? <h4> $ {this.props.data.bounty_price} </h4> : null;
+    var button = this.state.bounty ? <a href='#' onClick={this.claimBounty.bind(this)} className='btn indigo accent-2'> Accept </a> : null;
     return (
       <div className="row">
         <div className="col s12 m10">
@@ -28,14 +28,15 @@ class TicketEntry extends React.Component {
               <span className="card-title activator"><a className="light-blue-text accent-1" href={this.props.data.html_url} target="_blank">{this.props.data.title}</a><i className="material-icons right">more_vert</i></span>
               <div className="row">
                 <div className="col s12 m12">  
-                  {this.props.data.labels.map(function(label, index) {
+                  {this.state.bounty ? null : this.props.data.labels.map(function(label, index) {
                     return (
                       <div className="chip" style={{'backgroundColor': '#' + label.color}} key={index}>
                         {label.name}
                       </div>
                     );
                   }
-                )}
+                )
+                }
                 </div>
               </div>
               <div className="row">
