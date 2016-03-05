@@ -314,8 +314,7 @@ app.get('/reqNewAddress', function(req, res) {
 });
 
 app.post('/addToQueue', function(req, res) {
-  console.log('bounty', req.body);
-  var issue_id = req.body.data.id;
+  var issue_id = req.body.issue_id;
   var user_id = req.session.passport.user.id;
   Users.addToQueue(issue_id, user_id)
   .then(() => {
@@ -329,8 +328,12 @@ app.post('/addToQueue', function(req, res) {
 });
 
 app.get('/fetchUserIssues', function(req, res) {
-  Issues.getUserIssues()
-  .then((results) => res.send(results))
+  var user_id = req.session.passport.user.id;
+  Issues.getUserIssues(user_id)
+  .then((results) => {
+    console.log('results: ', results);
+    res.send(results);
+  })
   .catch((err) => {
     console.log(err);
     res.statusCode = 501;

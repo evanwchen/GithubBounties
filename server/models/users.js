@@ -39,8 +39,7 @@ Users.prototype.createUser = function (customer) {
 Users.prototype.addToQueue = function (issue_id, user_id) {
   return db('issuesUsers').insert({
     issue_id: issue_id, /* github_id */
-    user_id: user_id, /* github user id */
-    bounty_paid: false
+    user_id: user_id /* github user id */
   })
 };
 
