@@ -18,7 +18,7 @@ class TicketEntry extends React.Component {
   }
 
   render() {
-    var bounty = this.state.bounty ? <h4> $ {this.props.data.bounty_price} </h4> : null;
+    var bounty = this.props.data.bitcoin_amount ? <h4>{(this.props.data.bitcoin_amount) / 100000000 + ' BTC'}</h4> : <h4>{'$' + this.props.data.bounty_price}</h4>;
     var button = this.state.bounty ? <a href='#' onClick={this.addToQueue.bind(this)} className='btn indigo accent-2'> Accept </a> : null;
     return (
       <div className="row">
