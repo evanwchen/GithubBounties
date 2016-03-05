@@ -349,9 +349,10 @@ app.post('/submitPull', function(req, res) {
 
 // Payout to a bitcoin bountyhunter
 app.post('/payoutBitcoin', function(req, res) {
+  console.log('req.body.amount', req.body.amount)
   client.getAccount('80113505-bb59-5d0d-88b0-c6bd2c6d4a1a', function(err, account) {
     account.sendMoney({'to': req.body.address,
-    'amount': req.body.amount,
+    'amount': req.body.amount / 100000000 ,
     'currency': 'BTC'}, function(err, tx) {
       if (err) {
         console.log(err);
