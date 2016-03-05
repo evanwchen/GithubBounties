@@ -1,5 +1,5 @@
 const React = require('react');
-
+import { Navigation } from 'react-router'
 class BountyForm extends React.Component {
 
   constructor(props) {
@@ -114,7 +114,7 @@ class BountyForm extends React.Component {
   }
 
   handleBountyPriceChange(e) {
-    // var regex = /^\d+(?:\.\d{0,2})$/; // TODO: validate field 
+    // var regex = /^\d+(?:\.\d{0,2})$/; // TODO: validate field
     this.setState({bountyPrice: e.target.value});
     var bitCoinAmount = (this.state.bountyPrice / this.state.exchangeRateBTCUSD).toString().slice(0,10);
     this.setState({bitCoinAmount: bitCoinAmount});
@@ -128,6 +128,12 @@ class BountyForm extends React.Component {
   }
 
   render() {
+    if (this.state.receivedPayment) {
+      setTimeout(function(){
+        window.location = "http://127.0.0.1:3000/";
+      }.bind(this), 1500)
+    }
+
     console.log(this.state);
 
     if (this.state.issueURL) {
@@ -150,8 +156,8 @@ class BountyForm extends React.Component {
             bitcoin_amount: bitcoin, //stored in satoshis (multipled by a 100 million)
             org_name: parsedURL[3],
             repo_name: parsedURL[4],
-            number: parsedURL[6], 
-            githubId: githubId 
+            number: parsedURL[6],
+            githubId: githubId
           },
           success: function(data) {
             alert('Your bounty has been submitted!');
@@ -162,7 +168,7 @@ class BountyForm extends React.Component {
         });
       }
     }
-    
+
     var creditCardForm = (
       <div>
         <p>Note: You will not be charged until you approve and merge a pull request from a bounty hunter.</p>
@@ -197,14 +203,14 @@ class BountyForm extends React.Component {
 
     var bitCoinForm = (
       <div>
-        <img src={'https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=bitcoin:' + this.state.bitCoinAddress + '?amount=' + this.state.bitCoinAmount} />
+        <img src={this.state.receivedPayment ? './blockchainConfirm.jpg' : 'https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=bitcoin:' + this.state.bitCoinAddress + '?amount=' + this.state.bitCoinAmount} />
         <span>Scan the QR code with your coinbase app. This will submit your bounty</span>
       </div>
     );
 
     var paymentMethod = (
       <div>
-        <h4>Enter Payment Information</h4> 
+        <h4>Enter Payment Information</h4>
         <p>
           <input type="radio" id="Credit Card" checked={this.state.paymentMethod === 'Credit Card'} onChange={this.onPaymentMethodChange.bind(this)}/>
           <label htmlFor="Credit Card">Pay by Credit Card</label>
