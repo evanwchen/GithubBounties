@@ -39,7 +39,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-var port = process.env.PORT || 3000;
+var port = 3000;
 
 app.route('/api')
   .get(function(req, res) {
@@ -91,7 +91,7 @@ passport.deserializeUser(function(obj, done) {
 passport.use(new GitHubStrategy({
   clientID: config.GITHUB_CLIENT,
   clientSecret: config.GITHUB_SECRET,
-  callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
+  callbackURL: 'http://107.170.222.135/:3000/auth/github/callback'
 },
   function(accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
@@ -193,6 +193,7 @@ app.route('/stripeCC')
           Bounties.updateIssue(bounty[0])
           .then(() => {
             console.log('succesfully updated bounty');
+            res.status(200).send('completed cycle with creating bounty;');
           })
           .catch((err) => {
             console.log('Error updating bounty: ', err);
@@ -200,7 +201,6 @@ app.route('/stripeCC')
         })
         .catch((err) => {
           console.log('Error adding bounty: ', err);
-          res.status(501).send('Error adding bounty');
         });
       }) // should update this record immediately
       .catch(() => {
@@ -364,7 +364,7 @@ app.post('/payoutBitcoin', function(req, res) {
 });
 
 
-console.log(`server running on port ${port} in ${process.env.NODE_ENV} mode`);
+console.log(`server running on port ${port}`);
 // start listening to requests on port 3000
 app.listen(port);
 
