@@ -48,7 +48,9 @@ const App = class App extends React.Component {
       loggedIn={this.state.currentUser.loggedIn}
       username={this.state.currentUser.username} 
       linksRight={linksRight}
-      linksLeft={linksLeft}/>
+      linksLeft={linksLeft}
+      username={this.state.currentUser.username}
+      />
       <div className="row">
         <div className="main col s12 container">
           {this.props.children}

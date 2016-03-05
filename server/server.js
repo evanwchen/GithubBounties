@@ -351,7 +351,7 @@ app.post('/submitPull', function(req, res) {
 app.post('/payoutBitcoin', function(req, res) {
   client.getAccount('80113505-bb59-5d0d-88b0-c6bd2c6d4a1a', function(err, account) {
     account.sendMoney({'to': req.body.address,
-    'amount': '0.001',
+    'amount': req.body.amount,
     'currency': 'BTC'}, function(err, tx) {
       if (err) {
         console.log(err);

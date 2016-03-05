@@ -8,17 +8,21 @@ class Profile extends React.Component {
     super(props);
 
     this.state = {
+      amount: undefined,
+      address: '',
+      payout: false,
+      issueToPay: undefined,
       currentUser: null,
       prUrl: '',
-      acceptedIssues: [
-        {title: 'Some Mapped Dang',
-        url: 'https://github.com/ProfoundMongoose/GithubBounties/pulls'
+      claimedIssues: [
+        {title: 'New issue for Evan to solve',
+        url: 'https://github.com/franklinshieh/Test-Repo/issues/3'
         },
-        {title: 'Second Mapped Dang',
-        url: 'https://github.com/ProfoundMongoose/GithubBounties/pulls/2'
+        {title: 'Another issue',
+        url: 'https://github.com/franklinshieh/Test-Repo/issues/8'
         } // Suppose to be fetched from the server 
       ],
-      issueState: undefined
+      // issueState: undefined
     };
   }
 
@@ -26,10 +30,10 @@ class Profile extends React.Component {
     $.get('fetchUserIssues', (data) => {
       if (data) {
         this.setState({
-          acceptedIssues: data
+          claimedIssues: data
         });
       }
-    })
+    });
   }
 
   fetchUserInfo() {
@@ -48,45 +52,142 @@ class Profile extends React.Component {
     });
   }
 
-  submitPull(url, index) { 
-    $.post('submitPull', {bounty_url: url, username: this.state.currentUser.username, pr_url: this.state.issueState[index].text }, ( data ) => {
-      console.log(data);
+  // submitPull(url, index) { 
+  //   $.post('submitPull', {bounty_url: url, username: this.state.currentUser.username, pr_url: this.state.issueState[index].text }, ( data ) => {
+  //     console.log(data);
+  //   });
+  // }
+
+  // toggleIssue(index){
+  //   var obj = {};
+  //   obj[index] = {visible: !this.state.issueState[index].visible, text: ''};
+  //   this.setState({
+  //     issueState: Object.assign(this.state.issueState, obj)
+  //   })
+  // }
+
+  // handleChange(event, index){
+  //   var obj = {};
+  //   obj = this.state.issueState[index];
+  //   obj.text = event.target.value;
+  //   this.setState({
+  //     issueState: Object.assign(this.state.issueState, obj)
+  //   })
+  // }
+
+
+  claimBounty(url, index) { 
+    var user = this.state.currentUser.username;
+    var parsedURL = url.split('/');
+    console.log('parsedURLLLLLLL', parsedURL);
+
+    var apiCall = "https://api.github.com/search/issues?q=user:" + parsedURL[3] + "+repo:" + parsedURL[4] + "+'" + parsedURL[6] + "'+in:body+" + "author:" + user + "+is:merged&sort=created&order=desc";
+    console.log(apiCall);
+
+    var setPayoutToTrue = function () {
+      this.setState({payout: true});
+      this.setState({issueToPay: index});
+    }.bind(this);
+
+    $.ajax({
+      url: apiCall,
+      dataType: 'json',
+      type: 'GET',  
+      success: function(data) {
+        console.log('github data............:', data);
+        if(data['total_count']===1) {
+          //send to payment form
+          setPayoutToTrue();
+
+          console.log('you can get paid');
+        } else {
+          //your PR has not been merged by the issue owner
+          alert('you cannot get paid');
+        }
+      },
+      error: function(xhr, status, err) {
+        console.log('errorrrrrrrrr');
+      }
     });
-  }
 
-  toggleIssue(index){
-    var obj = {};
-    obj[index] = {visible: !this.state.issueState[index].visible, text: ''};
-    this.setState({
-      issueState: Object.assign(this.state.issueState, obj)
-    })
-  }
+    var setBitCoinAmount = function (bitcoinAmount) {
+      this.setState({amount: bitcoinAmount})
+    }.bind(this);
 
-  handleChange(event, index){
-    var obj = {};
-    obj = this.state.issueState[index];
-    obj.text = event.target.value;
-    this.setState({
-      issueState: Object.assign(this.state.issueState, obj)
-    })
+    $.ajax({
+      url: 'http://127.0.0.1:3000/getbitcoinamount', //TODO,
+      dataType: 'json',
+      type: 'GET',
+      success: function(data) {
+        console.log('bitcoinAmount............:', data);
+        setBitCoinAmount(data);
+      },
+      error: function(xhr, status, err) {
+        console.log('errorrrrrrrrr');
+      }
+    });
+
   }
 
   componentDidMount() {
     this.fetchUserInfo();
-    this.fetchAcceptedIssues();
     var obj = {};
-    this.state.acceptedIssues.forEach(function(issue, index){
+    this.state.claimedIssues.forEach(function(issue, index){
       obj[index] = {state: false, text: ''};
     })
-    this.setState({issueState: obj}) 
+    // this.setState({issueState: obj}) 
   }
 
-  render() {
-    var submitPull = this.submitPull.bind(this);
-    var toggleIssue = this.toggleIssue.bind(this);
-    var handleChange = this.handleChange.bind(this);
+  handleSubmit(e) {
+    e.preventDefault();
     var state = this.state;
-    if(this.state.currentUser && this.state.issueState){
+    console.log('state', state);
+
+    $.ajax({
+      url: 'http://127.0.0.1:3000/payoutBitcoin',
+      dataType: 'json',
+      type: 'POST',
+      data: {
+        address: state.address,
+        amount: state.amount,
+      },
+      success: function(data) {
+        console.log('sent data!!!!', data);
+      },
+      error: function(xhr, status, err) {
+        console.error('/payoutBitcoin', status, err.toString());
+      }
+    });
+
+  }
+
+  handleBitCoinAddressChange(e) {
+    this.setState({address: e.target.value});
+  }
+
+
+  render() {
+    // var submitPull = this.submitPull.bind(this);
+    var claimBounty = this.claimBounty.bind(this);
+    // var toggleIssue = this.toggleIssue.bind(this);
+    // var handleChange = this.handleChange.bind(this);
+    var state = this.state;
+
+    var bitcoinPaymentForm = (
+      <div className="row">
+        <form onSubmit={ this.handleSubmit.bind(this) } className="col s12" >
+          <div className="row">
+            <div className="input-field col s12">
+              <span>BitCoin Address</span>
+              <input id="email" name="email" placeholder="1NF9wZU4FuWQrVqtM74BDxJ2xfRRRKMKfW" required onChange={this.handleBitCoinAddressChange.bind(this)} />
+            </div>
+          </div>
+          <button className="waves-effect waves-light btn" type="submit">Submit</button>
+        </form>
+      </div>
+    );
+
+    if (this.state.currentUser) { //CHANGED: issuestate no longer used so don't need to check if true
     return (
       <div className="row">
         <div className="col s12 m12">
@@ -110,14 +211,13 @@ class Profile extends React.Component {
               </div>
               <h3> Open Bounties: </h3>
               {
-                this.state.acceptedIssues.map(function(issue, i){
+                this.state.claimedIssues.map(function(issue, i){
 
                   return (
                     <div>
                       <h4> {issue.title} </h4>
-                      {state.issueState[i].visible ? <input placeholder='Enter your PRs URL ' onChange={handleChange.bind(null, event, i)}/> : null }
-                      {state.issueState[i].visible ? <button className='btn' onClick={submitPull.bind(null, issue.url, i)}>Submit </button>
-                                                 : <button className='btn' onClick={toggleIssue.bind(null, i)}> Add PR URL </button> }
+                      <button className='btn' onClick={claimBounty.bind(null, issue.url, i)}>Claim Bounty </button>
+                      {state.payout && state.issueToPay===i ? bitcoinPaymentForm : null}
                     </div>
                   )
                 })
