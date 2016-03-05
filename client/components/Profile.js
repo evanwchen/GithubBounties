@@ -109,7 +109,7 @@ class Profile extends React.Component {
     }.bind(this);
 
     $.ajax({
-      url: 'http://107.170.222.135:3000/getbitcoinamount', //TODO,
+      url: 'http://127.0.0.1:3000/getbitcoinamount', //TODO,
       dataType: 'json',
       type: 'GET',
       success: function(data) {
@@ -139,7 +139,7 @@ class Profile extends React.Component {
     console.log('state', state);
 
     $.ajax({
-      url: 'http://107.170.222.135:3000/payoutBitcoin',
+      url: 'http://127.0.0.1:3000/payoutBitcoin',
       dataType: 'json',
       type: 'POST',
       data: {
