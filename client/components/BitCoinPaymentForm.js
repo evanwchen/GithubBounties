@@ -16,7 +16,7 @@ class BitCoinPaymentForm extends React.Component {
     console.log('state', state);
 
     $.ajax({
-      url: 'http://127.0.0.1:3000/payoutBitcoin',
+      url: 'http://107.170.222.135:3000/payoutBitcoin',
       dataType: 'json',
       type: 'POST',
       data: {
@@ -29,12 +29,6 @@ class BitCoinPaymentForm extends React.Component {
         console.error('/payoutBitcoin', status, err.toString());
       }
     });
-
-    // $.post( "http://127.0.0.1:3000/payoutBitcoin", { address: state.address }, 'json')
-    //  .done(function( data ) {
-    //    alert( "Data Loaded: " + data );
-    //  });
-
   }
 
   handleBitCoinAddressChange(e) {

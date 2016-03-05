@@ -47,6 +47,22 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-automatic-deploym
 Below is the folder structure we are using for the git workflow.
   - Source code folder - /var/www/gitbegin
   - Git repo folder - /var/repo/gitbegin.git 
+
+You need to download node using nvm using the following command in the terminal:
+```
+$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+```
+
+Then, you need to update node to v5.6 using the following command in the terminal:
+```
+nvm install 5.6
+```
+You will also need to set the default Node version to be v5.6 any new shell with the following command in the terminal:
+```
+nvm alias default 5.6
+```
+
+More info here: https://github.com/creationix/nvm
   
 ####Automating server startup and background jobs
 We use the npm forever package and cron jobs to make sure the server always starts and stays running. Cron is also used to automate

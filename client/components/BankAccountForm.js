@@ -37,7 +37,7 @@ class BankAccountForm extends React.Component {
       console.log( status, response );
       //send the token to the server so we can attach it to a customer object and store in our database
       $.ajax({
-        url: 'http://127.0.0.1:3000/stripeB',
+        url: 'http://107.170.222.135:3000/stripeB',
         dataType: 'json',
         type: 'POST',
         data: {
