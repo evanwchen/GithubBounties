@@ -314,8 +314,7 @@ app.get('/reqNewAddress', function(req, res) {
 });
 
 app.post('/addToQueue', function(req, res) {
-  console.log('bounty', req.body);
-  var issue_id = req.body.data.id;
+  var issue_id = req.body.issue_id;
   var user_id = req.session.passport.user.id;
   Users.addToQueue(issue_id, user_id)
   .then(() => {
@@ -329,8 +328,12 @@ app.post('/addToQueue', function(req, res) {
 });
 
 app.get('/fetchUserIssues', function(req, res) {
-  Issues.getUserIssues()
-  .then((results) => res.send(results))
+  var user_id = req.session.passport.user.id;
+  Issues.getUserIssues(user_id)
+  .then((results) => {
+    console.log('results: ', results);
+    res.send(results);
+  })
   .catch((err) => {
     console.log(err);
     res.statusCode = 501;
@@ -348,7 +351,7 @@ app.post('/submitPull', function(req, res) {
 app.post('/payoutBitcoin', function(req, res) {
   client.getAccount('80113505-bb59-5d0d-88b0-c6bd2c6d4a1a', function(err, account) {
     account.sendMoney({'to': req.body.address,
-    'amount': '0.001',
+    'amount': req.body.amount,
     'currency': 'BTC'}, function(err, tx) {
       if (err) {
         console.log(err);
