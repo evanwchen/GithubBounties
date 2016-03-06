@@ -34,7 +34,7 @@ class BountyForm extends React.Component {
       });
     }.bind(this));
 
-    this.serverRequest = $.get('http://127.0.0.1:3000/reqNewAddress', function (data) {
+    this.serverRequest = $.get('http://107.170.222.135:3000/reqNewAddress', function (data) {
       console.log('new address...................', data);
       this.setState({
         bitCoinAddress: data
@@ -79,7 +79,7 @@ class BountyForm extends React.Component {
       var token = response.id;
       //send the token to the server so we can use it to make a customer object and store in our database
       $.ajax({
-        url: 'http://127.0.0.1:3000/stripeCC',
+        url: 'http://107.170.222.135:3000/stripeCC',
         dataType: 'json',
         type: 'POST',
         data: {
@@ -92,7 +92,7 @@ class BountyForm extends React.Component {
         },
         success: function(data) {
           console.log('data:', data);
-          window.location = 'http://127.0.0.1:3000/';
+          window.location = 'http://107.170.222.135:3000/';
         },
         error: function(xhr, status, err) {
           console.error('/stripeCC', status, err.toString());
@@ -131,7 +131,7 @@ class BountyForm extends React.Component {
   render() {
     if (this.state.receivedPayment) {
       setTimeout(function() {
-        window.location = 'http://127.0.0.1:3000/';
+        window.location = 'http://107.170.222.135:3000/';
       }.bind(this), 1500);
     }
 

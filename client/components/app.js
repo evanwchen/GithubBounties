@@ -27,7 +27,7 @@ const App = class App extends React.Component {
     };
   }
   fetchUserInfo() {
-    $.get( 'fetchUserInfo', ( data ) => {
+    $.get( 'http://107.170.222.135:3000/fetchUserInfo', ( data ) => {
       console.log(data);
       if (data) {
         this.setState({

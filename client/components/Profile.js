@@ -20,7 +20,7 @@ class Profile extends React.Component {
   }
 
   fetchAcceptedIssues() {
-    $.get('fetchUserIssues', (data) => {
+    $.get('http://107.170.222.135:3000/fetchUserIssues', (data) => {
       console.log('data: ', data);
       if (data) {
         this.setState({
@@ -31,7 +31,7 @@ class Profile extends React.Component {
   }
 
   fetchUserInfo() {
-    $.get( 'fetchUserInfo', ( data ) => {
+    $.get( 'http://107.170.222.135:3000/fetchUserInfo', ( data ) => {
       console.log(data);
       if (data) {
         this.setState({
@@ -99,7 +99,7 @@ class Profile extends React.Component {
     console.log('state', state);
 
     $.ajax({
-      url: 'http://127.0.0.1:3000/payoutBitcoin',
+      url: 'http://107.170.222.135:3000/payoutBitcoin',
       dataType: 'json',
       type: 'POST',
       data: {
