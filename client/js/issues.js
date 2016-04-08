@@ -8,7 +8,7 @@ var languages = [];
 
 var getIssuesFromApi = function (successCallback, errCallback) {
   var options = {
-    url: 'http://localhost:3000/api/issues',
+    url: 'http://45.55.29.22:3000/api/issues',
     type: 'GET',
     success: successCallback,
     error: errCallback
@@ -19,7 +19,7 @@ var getIssuesFromApi = function (successCallback, errCallback) {
 
 var getBountiesFromApi = function (successCallback, errCallback) {
   var options = {
-    url: 'http://localhost:3000/api/bounties',
+    url: 'http://107.170.222.135:3000/api/bounties',
     type: 'GET',
     success: successCallback,
     error: errCallback

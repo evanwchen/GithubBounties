@@ -20,7 +20,7 @@ class Profile extends React.Component {
   }
 
   fetchAcceptedIssues() {
-    $.get('fetchUserIssues', (data) => {
+    $.get('http://107.170.222.135:3000/fetchUserIssues', (data) => {
       console.log('data: ', data);
       if (data) {
         this.setState({
@@ -31,7 +31,7 @@ class Profile extends React.Component {
   }
 
   fetchUserInfo() {
-    $.get( 'fetchUserInfo', ( data ) => {
+    $.get( 'http://107.170.222.135:3000/fetchUserInfo', ( data ) => {
       console.log(data);
       if (data) {
         this.setState({
@@ -46,31 +46,7 @@ class Profile extends React.Component {
     });
   }
 
-  // submitPull(url, index) { 
-  //   $.post('submitPull', {bounty_url: url, username: this.state.currentUser.username, pr_url: this.state.issueState[index].text }, ( data ) => {
-  //     console.log(data);
-  //   });
-  // }
-
-  // toggleIssue(index){
-  //   var obj = {};
-  //   obj[index] = {visible: !this.state.issueState[index].visible, text: ''};
-  //   this.setState({
-  //     issueState: Object.assign(this.state.issueState, obj)
-  //   })
-  // }
-
-  // handleChange(event, index){
-  //   var obj = {};
-  //   obj = this.state.issueState[index];
-  //   obj.text = event.target.value;
-  //   this.setState({
-  //     issueState: Object.assign(this.state.issueState, obj)
-  //   })
-  // }
-
-
-  claimBounty(url, index) { 
+  claimBounty(url, index, amount) { 
     var user = this.state.currentUser.username;
     var parsedURL = url.split('/');
     console.log('parsedURLLLLLLL', parsedURL);
@@ -81,6 +57,8 @@ class Profile extends React.Component {
     var setPayoutToTrue = function () {
       this.setState({payout: true});
       this.setState({issueToPay: index});
+      this.setState({amount: amount});
+
     }.bind(this);
 
     $.ajax({
@@ -104,23 +82,6 @@ class Profile extends React.Component {
       }
     });
 
-    var setBitCoinAmount = function (bitcoinAmount) {
-      this.setState({amount: bitcoinAmount})
-    }.bind(this);
-
-    $.ajax({
-      url: 'http://127.0.0.1:3000/getbitcoinamount', //TODO,
-      dataType: 'json',
-      type: 'GET',
-      success: function(data) {
-        console.log('bitcoinAmount............:', data);
-        setBitCoinAmount(data);
-      },
-      error: function(xhr, status, err) {
-        console.log('errorrrrrrrrr');
-      }
-    });
-
   }
 
   componentDidMount() {
@@ -130,7 +91,6 @@ class Profile extends React.Component {
     this.state.claimedIssues.forEach(function(issue, index){
       obj[index] = {state: false, text: ''};
     })
-    // this.setState({issueState: obj}) 
   }
 
   handleSubmit(e) {
@@ -139,7 +99,7 @@ class Profile extends React.Component {
     console.log('state', state);
 
     $.ajax({
-      url: 'http://127.0.0.1:3000/payoutBitcoin',
+      url: 'http://107.170.222.135:3000/payoutBitcoin',
       dataType: 'json',
       type: 'POST',
       data: {
@@ -162,10 +122,7 @@ class Profile extends React.Component {
 
 
   render() {
-    // var submitPull = this.submitPull.bind(this);
     var claimBounty = this.claimBounty.bind(this);
-    // var toggleIssue = this.toggleIssue.bind(this);
-    // var handleChange = this.handleChange.bind(this);
     var state = this.state;
 
     var bitcoinPaymentForm = (
@@ -182,7 +139,7 @@ class Profile extends React.Component {
       </div>
     );
 
-    if (this.state.currentUser) { //CHANGED: issuestate no longer used so don't need to check if true
+    if (this.state.currentUser) {
     return (
       <div className="row">
         <div className="col s12 m12">
@@ -198,7 +155,7 @@ class Profile extends React.Component {
                   </div>
                   <div className="row">
                     <h4> Github handle: {this.state.currentUser.username} </h4>
-                    <button className='btn'> <Link className='white-text' to={'/bitcoinpaymentform'}>Bank Form</Link></button>
+                    <button className='btn'> <Link className='white-text' to={'/bankAccountForm'}>Bank Form</Link></button>
                     <button className='btn'> <Link className='white-text' to={'/bitcoinpaymentform'}>Bitcoin Form</Link></button>
 
                   </div>
@@ -211,7 +168,7 @@ class Profile extends React.Component {
                   return (
                     <div>
                       <h4> {issue.title} </h4>
-                      <button className='btn' onClick={claimBounty.bind(null, issue.url, i)}>Claim Bounty </button>
+                      <button className='btn' onClick={claimBounty.bind(null, issue.html_url, i, issue.bitcoin_amount)}>Claim Bounty </button>
                       {state.payout && state.issueToPay===i ? bitcoinPaymentForm : null}
                     </div>
                   )

@@ -18,7 +18,7 @@ class TicketEntry extends React.Component {
   }
 
   render() {
-    var bounty = this.state.bounty ? <h4> $ {this.props.data.bounty_price} </h4> : null;
+    var bounty = this.props.data.bitcoin_amount ? <h4>{(this.props.data.bitcoin_amount) / 100000000 + ' BTC'}</h4> : <h4>{'$' + this.props.data.bounty_price}</h4>;
     var button = this.state.bounty ? <a href='#' onClick={this.addToQueue.bind(this)} className='btn indigo accent-2'> Accept </a> : null;
     return (
       <div className="row">
@@ -45,7 +45,7 @@ class TicketEntry extends React.Component {
               <div className="row">
                 <p className="left-align col s4">repo: <Link className="cyan-text lighten-2" to={`/repoProfile/${this.props.data.repo_id}`}>{this.props.data.repo_name}
                 </Link></p>
-                <div className="col s6 offset-s3"> {bounty}{button}</div>
+                <div className=" right-align col s6 offset-s3"> {bounty}{button}</div>
                 <p className="right-align col s2">{this.props.data.language}</p>
               </div>
             </div>

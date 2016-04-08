@@ -37,7 +37,7 @@ Issues.prototype.getBounties = function () {
   return db.raw(`select b.*
     , r.language
     , r.id as repo_id 
-    from bountyissues b 
+    from bountyIssues b 
     left join repos r on b.org_name=r.org_name and b.repo_name=r.name 
     where b.bounty_paid=false
     order by created_at desc;`)
