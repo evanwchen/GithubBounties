@@ -1,25 +1,24 @@
-# Good First Ticket #
-  An app that guides software engineers on how to start contributing to the open source community on Github.
+# GitHub Bounties #
 
 ## Summary ##
-  Want to contribute to open source projects on Github, but wondering where to start? You've come to the right place! We comb through open tickets and gather everything labeled good for beginners in one, easy to browse list. Pick a ticket and become an active member of the open source community.
+  GitHub Bounties is a marketplace that connects software engineers with companies willing to pay for contract work.
 
 ## Problem ##
-  Not sure how to contribute? How to decide which organization or repository to get involved with?
+  Software engineering talent is in high demand. Many companies are willing to pay developers for contract work but are unable to find the talent they need.
 
 ## Solution ##
-  Now you do! Our app gathers everything labeled good for beginners in one, easy-to-browse list and provides side-by-side comparisons of different repositories to help you build relationships with the larger open-source community.
+  GitHub Bounties connects software engineers with companies that are willing to pay developers for contract work. Companies can add a bounty fee (USD or Bitcoin) to any GitHub issue, and developers that resolve those issues will automatically be issued payment for their work.
 
-## From Our Team ##
-  "Good First Ticket makes it easy for engineers to find repositories looking for contributors. It takes the thinking out searching for good open source projects and lets engineers get right to doing what they do best, coding."
-  --Daniel Sun Kim
+## Internal Quote ##
+  "There's a huge demand for contract work in software engineering. We've made it incredibly easy for developers to find opportunities to be paid for their skills and expertise."
+  --Evan Chen
 
 ## How to Get Started ##
-  Visit www.GoodFirstTicket.example and start browsing the easy tickets on Github asking for contributors. For a deeper dive, browse individual repositories and see which have the most tickets available.
+  Visit (TBD) to browse through the bounties listed on the marketplace and/or add new bounties to open GitHub issues.
 
 ## Customer Quote ##
-  "Wow. This is a product I would actually use."
-   --Veliko Markov
+  "I've been contributing on open-source projects for years now to keep my skills sharp and learn new technologies. With GitHub Bounties, I can now be paid for the work that I would already have been doing. It's great!"
+   --Anonymous Software Engineer
 
 ## Anything Else? ##
-  Visit www.GoodFirstTicket.example and start contributing today.
+  Visit (TBD) and start exploring today.

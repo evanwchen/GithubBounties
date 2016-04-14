@@ -1,17 +1,20 @@
-[![Stories in Backlog](https://badge.waffle.io/DapperArgentina/DapperArgentina.png?label=backlog&title=Backlog)](https://waffle.io/DapperArgentina/DapperArgentina)
-[![Stories in Ready](https://badge.waffle.io/DapperArgentina/DapperArgentina.png?label=ready&title=Ready)](https://waffle.io/DapperArgentina/DapperArgentina)
-# DapperArgentina  
+# GitHub Bounties
+> Marketplace that connects software engineers with companies willing to pay for contract work 
 
-> An app that guides software engineers on how to start contributing to the open source community on Github.  
+![super agent](https://s3.amazonaws.com/poly-screenshots.angel.co/Project/78/253354/756bd01b183bd3e0d1da6f4c1bcd1e8a-original.png)
 
 ## Team Members  
 
 - Megan Ring  
 - Vince Cipriani  
 - Daniel Kim  
-- Colin Whitmarsh  
+- Colin Whitmarsh
+- Evan Chen
+- Frank Shieh
+- Max Kroshka
+- Joe Miller
 
-## Requirements  
+## Requirements
 
 - Node 5.6  
 - MySQL 5.5  
@@ -19,8 +22,8 @@
 # Development
 
 ## Installing Dependencies
-Below is some basic information on getting started w/ the project.  Both the client and server folders
-contain README documents with more information.  In particular, you will likely need to do additional configuration if
+Below is some basic information on getting started w/ the project. Both the client and server folders
+contain README documents with more information. In particular, you will likely need to do additional configuration if
 working on server/backend changes.
 
 ```sh
@@ -44,8 +47,4 @@ If linting is not working run the command below and make sure you have the eslin
 ```sh
 npm install -g eslint  
 ```
-
-### Roadmap
-
-View the project roadmap [here](https://github.com/DapperArgentina/DapperArgentina/issues)
 
